@@ -1,14 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react'; //react native(mobile)basiert auf react(libary)
+import { StyleSheet, Text, View } from 'react-native'; //API & Componenten 
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your AApp!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+// klassen erweiterung
+export default class App extends Component { //statt React.Component oben auch importieren App dateiname
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text>Open up App.js to start working on your app!</Text>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
