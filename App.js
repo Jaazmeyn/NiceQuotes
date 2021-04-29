@@ -1,5 +1,8 @@
 import React, { Component } from 'react'; //react native(mobile)basiert auf react(libary)
-import { Button, StyleSheet, Text, View } from 'react-native'; //API & Componenten 
+import { Button, StyleSheet, View } from 'react-native'; //API & Componenten 
+
+import Quote from './js/components/Quote';
+import NewQuote from './js/components/NewQuote';
 
 const data = [
   {
@@ -23,7 +26,7 @@ const data = [
 ]
 // klassen erweiterung
 export default class App extends Component { //statt React.Component oben auch importieren App dateiname
-  state = { index: 0 };
+  state = { index: 0, showNewQuoteScreen: false };
   render() {
     let index = this.state.index;
     const quote = data[index]; //data[0] = Dalai Lama
@@ -32,17 +35,27 @@ export default class App extends Component { //statt React.Component oben auch i
     let lastIndex = index - 1; 
     if(lastIndex === -1) lastIndex = data.length -1; //zu dem letzden Zitat in der Liste
     return (
-      <View style={styles.container}>
-        <Text>{quote.author}</Text>
-        <Text>--{quote.text}</Text>
-        <Button 
-          title="Nächstes Zitat" 
-          onPress = {() => this.setState({ index: nextIndex })}
-          />
+      <View style = {styles.container}>
+        <View style = { styles.new }>
           <Button 
-          title="Voriges Zitat" 
-          onPress = {() => this.setState({ index: lastIndex })}
-          />
+            title = "New" 
+            onPress = {() => this.setState({showNewQuoteScreen:true})}
+            />
+        </View>
+        <NewQuote visible={this.state.showNewQuoteScreen}/>
+        <Quote text = {quote.text} author={quote.author}/>
+        <View style = {styles.nextButton}>
+          <Button 
+              title = "Nächstes Zitat" 
+              onPress = {() => this.setState({ index: nextIndex })}
+            />
+        </View>
+        <View style = { styles.lastButton }>
+          <Button 
+            title = "Voriges Zitat" 
+            onPress = {() => this.setState({ index: lastIndex })}
+            />
+        </View>
       </View>
     );
   }
@@ -51,8 +64,12 @@ export default class App extends Component { //statt React.Component oben auch i
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'grey',
     alignItems: 'center',
     justifyContent: 'center',
+
   },
+  nextButton: { position:'absolute', bottom:30 },
+  lastButton: { position:'absolute', top: 40 },
+  newButton: { position: 'absolute', top:30, right:0}
 });
