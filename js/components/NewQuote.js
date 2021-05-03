@@ -5,6 +5,8 @@ export default class NewQuote extends Component {
     state = { content: null, author: null };
 
     render(){
+        const { visible, onSave } = this.props;
+        const { content, author } = this.state;
         //das erledigt der visible prop der Modal komponente
         // if(this.props.visible === false){
         //     return null;
@@ -12,8 +14,8 @@ export default class NewQuote extends Component {
 
         return (
             <Modal
-                visible={this.props.visible}
-                onRequestClose={this.props.onSave}//prop nur für android backbutton und AppleTv
+                visible={visible}
+                onRequestClose={onSave}//prop nur für android backbutton und AppleTv
                 animationType="slide"
             >
                 <View style={styles.container}>
@@ -29,9 +31,10 @@ export default class NewQuote extends Component {
                         placeholder="Autor"  
                         underlineColorAndroid="transparent"
                         onChangeText={text => this.setState({ author: text })}
-
                     />
-                    <Button title="speichern" onPress={this.props.onSave} />
+                    <Button title="speichern" 
+                        onPress={() => 
+                            onSave(content, author)} />
                 </View>
             </Modal>
         );
