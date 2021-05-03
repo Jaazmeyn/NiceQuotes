@@ -47,8 +47,9 @@ export default class App extends Component { //statt React.Component oben auch i
             onPress = {() => this.setState({showNewQuoteScreen:true})}
             />
         </View>
-        <NewQuote visible={this.state.showNewQuoteScreen}
-        onSave={this._addQuote}/>
+        <NewQuote 
+          visible={this.state.showNewQuoteScreen}
+          onSave={this._addQuote}/>
         <Quote text = {quote.text} author={quote.author}/>
         <View style = {styles.nextButton}>
           <Button 
