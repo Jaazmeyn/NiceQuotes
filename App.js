@@ -27,6 +27,11 @@ const data = [
 // klassen erweiterung
 export default class App extends Component { //statt React.Component oben auch importieren App dateiname
   state = { index: 0, showNewQuoteScreen: false };
+
+  //newQuote ausblenden
+  _addQuote = () => {
+    this.setState({showNewQuoteScreen: false})
+  }
   render() {
     let index = this.state.index;
     const quote = data[index]; //data[0] = Dalai Lama
@@ -42,7 +47,8 @@ export default class App extends Component { //statt React.Component oben auch i
             onPress = {() => this.setState({showNewQuoteScreen:true})}
             />
         </View>
-        <NewQuote visible={this.state.showNewQuoteScreen}/>
+        <NewQuote visible={this.state.showNewQuoteScreen}
+        onSave={this._addQuote}/>
         <Quote text = {quote.text} author={quote.author}/>
         <View style = {styles.nextButton}>
           <Button 
@@ -67,7 +73,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'grey',
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   nextButton: { position:'absolute', bottom:30 },
   lastButton: { position:'absolute', top: 40 },
