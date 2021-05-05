@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; //react native(mobile)basiert auf react(libary)
 import { Button, Platform, SaveAreaView, StyleSheet, View } from 'react-native'; //API & Componenten 
-
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import Quote from './js/components/Quote';
 import NewQuote from './js/components/NewQuote';
 
@@ -27,7 +27,10 @@ const data = [
 // klassen erweiterung
 export default class App extends Component { //statt React.Component oben auch importieren App dateiname
   state = { index: 0, showNewQuoteScreen: false, quotes: data };
-
+  
+  _storeData(Quotes){
+    AsyncStorage.setItem('Quotes',JSON.stringify(Quotes)); //Asyncstorage ist textbasiert muss in 
+  }
   //newQuote ausblenden
   _addQuote = (text, author) => {
 
@@ -37,6 +40,7 @@ export default class App extends Component { //statt React.Component oben auch i
     if(author && text){
       // neues Zitat an ende der Liste anfügen (eigenschaft: wert) erzeuge objekt direkt bei methodenaufruf
       quotes.push({text, author});
+      this._storeData(this.state.quotes)
     }
       // aktualisiere liste (this.setstate(..)) aber haben schon oben einen state also oben state erweitern mit eigenschaft quotes
 
