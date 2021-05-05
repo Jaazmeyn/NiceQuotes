@@ -27,9 +27,17 @@ const data = [
 // klassen erweiterung
 export default class App extends Component { //statt React.Component oben auch importieren App dateiname
   state = { index: 0, showNewQuoteScreen: false, quotes: data };
-  
+
+  _retrieveData(){
+    AsyncStorage.getItem('QUOTES').then( value => { //zitate als string
+      if(value != null){
+        value = JSON.parse(value);
+        this.setState({quotes: value});
+      }
+    })
+  }
   _storeData(Quotes){
-    AsyncStorage.setItem('Quotes',JSON.stringify(Quotes)); //Asyncstorage ist textbasiert muss in 
+    AsyncStorage.setItem('QUOTES',JSON.stringify(quotes)); //Asyncstorage ist textbasiert muss in 
   }
   //newQuote ausblenden
   _addQuote = (text, author) => {
@@ -40,7 +48,7 @@ export default class App extends Component { //statt React.Component oben auch i
     if(author && text){
       // neues Zitat an ende der Liste anfügen (eigenschaft: wert) erzeuge objekt direkt bei methodenaufruf
       quotes.push({text, author});
-      this._storeData(this.state.quotes)
+      this._storeData(quotes)
     }
       // aktualisiere liste (this.setstate(..)) aber haben schon oben einen state also oben state erweitern mit eigenschaft quotes
 
