@@ -26,17 +26,28 @@ const data = [
 ]
 // klassen erweiterung
 export default class App extends Component { //statt React.Component oben auch importieren App dateiname
-  state = { index: 0, showNewQuoteScreen: false };
+  state = { index: 0, showNewQuoteScreen: false, quotes: data };
 
   //newQuote ausblenden
-  _addQuote = () => {
-    this.setState({showNewQuoteScreen: false})
+  _addQuote = (text, author) => {
+
+    // aktuelle liste der Zitate aus State einer variable zuweisen
+    //      statt let quotes = this.state.quotes;
+    let { quotes } = this.state;
+    if(author && text){
+      // neues Zitat an ende der Liste anfügen (eigenschaft: wert) erzeuge objekt direkt bei methodenaufruf
+      quotes.push({text, author});
+    }
+      // aktualisiere liste (this.setstate(..)) aber haben schon oben einen state also oben state erweitern mit eigenschaft quotes
+
+      //newQuote ausblenden
+      this.setState({showNewQuoteScreen: false, quotes})
   }
   render() {
-    let index = this.state.index;
-    const quote = data[index]; //data[0] = Dalai Lama
+    let {index, quotes} = this.state;
+    const quote = quotes[index]; //data[0] = Dalai Lama
     let nextIndex = index + 1;
-    if(nextIndex === data.length) nextIndex = 0;
+    if(nextIndex === quotes.length) nextIndex = 0;
     let lastIndex = index - 1; 
     if(lastIndex === -1) lastIndex = data.length -1; //zu dem letzden Zitat in der Liste
     return (

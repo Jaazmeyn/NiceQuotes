@@ -32,9 +32,7 @@ export default class NewQuote extends Component {
                         underlineColorAndroid="transparent"
                         onChangeText={text => this.setState({ author: text })}
                     />
-                    <Button title="speichern" 
-                        onPress={() => 
-                            onSave(content, author)} />
+                    <Button title="speichern" onPress={() => onSave(content, author)} />
                 </View>
             </Modal>
         );
