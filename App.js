@@ -28,16 +28,17 @@ const data = [
 export default class App extends Component { //statt React.Component oben auch importieren App dateiname
   state = { index: 0, showNewQuoteScreen: false, quotes: data };
 
-  _retrieveData(){
-    AsyncStorage.getItem('QUOTES').then( value => { //zitate als string
+  _retrieveData = async () => {
+    //statt promise mit awayt syntaktisch wie synchronen ablauf umgeschrieben
+    let value = await AsyncStorage.getItem('QUOTES');
       if(value != null){
         value = JSON.parse(value);
         this.setState({quotes: value});
       }
-    })
-  }
+    }
+  
   _storeData(Quotes){
-    AsyncStorage.setItem('QUOTES',JSON.stringify(quotes)); //Asyncstorage ist textbasiert muss in 
+    AsyncStorage.setItem('QUOTES', JSON.stringify(quotes)); //Asyncstorage ist textbasiert muss in 
   }
   //newQuote ausblenden
   _addQuote = (text, author) => {
