@@ -1,5 +1,5 @@
 import React, { Component } from 'react'; //react native(mobile)basiert auf react(libary)
-import { Button, StyleSheet, View } from 'react-native'; //API & Componenten 
+import { Button, Platform, SaveAreaView, StyleSheet, View } from 'react-native'; //API & Componenten 
 
 import Quote from './js/components/Quote';
 import NewQuote from './js/components/NewQuote';
@@ -51,7 +51,7 @@ export default class App extends Component { //statt React.Component oben auch i
     let lastIndex = index - 1; 
     if(lastIndex === -1) lastIndex = data.length -1; //zu dem letzden Zitat in der Liste
     return (
-      <View style = {styles.container}>
+      <SaveAreaView style = {styles.container}>
         <View style = { styles.new }>
           <Button 
             title = "New" 
@@ -74,7 +74,7 @@ export default class App extends Component { //statt React.Component oben auch i
             onPress = {() => this.setState({ index: lastIndex })}
             />
         </View>
-      </View>
+      </SaveAreaView>
     );
   }
 }
@@ -86,7 +86,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  nextButton: { position:'absolute', bottom:30 },
-  lastButton: { position:'absolute', top: 40 },
-  newButton: { position: 'absolute', top:30, right:0}
+  nextButton: { 
+    position:'absolute', 
+    bottom: Platform.OS === 'ios' ? 20 : 0,
+  },
+  lastButton: { 
+    position:'absolute', 
+    top: 40 
+  },
+  newButton: { 
+    position: 'absolute', 
+    top:30, 
+    right:0
+  }
 });
