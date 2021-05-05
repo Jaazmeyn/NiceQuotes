@@ -15,7 +15,10 @@ export default class NewQuote extends Component {
         return (
             <Modal
                 visible={visible}
-                onRequestClose={onSave}//prop nur für android backbutton und AppleTv
+                onRequestClose={()=>{
+                    this.setState({content: null, author: null})
+                    onSave(null, null); //d.h hier wird nichts gespeichert!
+                }}//prop nur für android backbutton und AppleTv
                 animationType="slide"
             >
                 <View style={styles.container}>
@@ -32,7 +35,10 @@ export default class NewQuote extends Component {
                         underlineColorAndroid="transparent"
                         onChangeText={text => this.setState({ author: text })}
                     />
-                    <Button title="speichern" onPress={() => onSave(content, author)} />
+                    <Button title="speichern" onPress={() => {
+                        this.setState({content: null, author: null})
+                        onSave(content, author);
+                    }} />
                 </View>
             </Modal>
         );
