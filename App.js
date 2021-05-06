@@ -1,5 +1,5 @@
 import React, { Component } from 'react'; //react native(mobile)basiert auf react(libary)
-import { Text, Button, Platform, SaveAreaView, StyleSheet, View } from 'react-native'; //API & Componenten 
+import { Alert, Text, Button, Platform, SaveAreaView, StyleSheet, View } from 'react-native'; //API & Componenten 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Quote from './js/components/Quote';
 import NewQuote from './js/components/NewQuote';
@@ -71,6 +71,16 @@ export default class App extends Component { //statt React.Component oben auch i
 
   }
   _deleteButton(){
+    Alert.alert('Zitat löschen?', 'Dies kann nicht rückgängig gemacht werden', 
+    [
+      { text:'Abbrechen', style:'cancel'}, //style für iOs
+      { text: 'Löschen', style: 'destructive', onPress: ()=>{
+        this._deleteQuote()
+      }}
+    ]);
+
+  }
+  _deleteQuote(){
     let {index, quotes} = this.state;
     //aktuelles zitat aus liste/ array löschen
     quotes.splice(index, 1);//aber wie funktioniert das mim local storage? ist das immer array zusammenhängend?
@@ -78,7 +88,6 @@ export default class App extends Component { //statt React.Component oben auch i
     this._storeData(quotes);
     //geändertes Zitat array ablegen und wieder an anfang der liste springen
     this.setState({ index: 0, quotes })
-
   }
   componentDidMount(){
     this._retrieveData();
