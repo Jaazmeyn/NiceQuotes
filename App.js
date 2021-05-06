@@ -55,19 +55,30 @@ export default class App extends Component { //statt React.Component oben auch i
       //newQuote ausblenden
       this.setState({showNewQuoteScreen: false, quotes})
   }
+  _displayNextQuote() {
+    let {index, quotes} = this.state;
+    let nextIndex = index + 1;
+    if(nextIndex === quotes.length) nextIndex = 0;
+    this.setState({ index: nextIndex });
+  }
+  _displayLastQuote() {
+    let {index, quote} = this.state;
+    let lastIndex = index - 1; 
+    if(lastIndex === -1) lastIndex = data.length -1; //zu dem letzden Zitat in der Liste
+    this.setState({ index: lastIndex })
+
+  }
 
   componentDidMount(){
     this._retrieveData();
   }
+
   render() {
     let {index, quotes} = this.state;
     const quote = quotes[index]; //data[0] = Dalai Lama
-    let nextIndex = index + 1;
-    if(nextIndex === quotes.length) nextIndex = 0;
-    let lastIndex = index - 1; 
-    if(lastIndex === -1) lastIndex = data.length -1; //zu dem letzden Zitat in der Liste
+
     return (
-      <SaveAreaView style = {styles.container}>
+      <View style = {styles.container}>
         <StyledButton
           style={styles.new}
           title = "New" 
@@ -76,24 +87,24 @@ export default class App extends Component { //statt React.Component oben auch i
         <NewQuote 
           visible={this.state.showNewQuoteScreen}
           onSave={this._addQuote}/>
-        <Quote text = {quote.text} author={quote.author}/>
+
+        <Quote text ={quote.text} author={quote.author}/>
 
         <StyledButton
           style={styles.nextButton}
           title = "Nächstes Zitat" 
-          onPress = {() => this.setState({ index: nextIndex })}
+          onPress = {() => this._displayNextQuote()}
         />
         <StyledButton 
           style = { styles.lastButton }
           title = "Voriges Zitat" 
-          onPress = {() => this.setState({ index: lastIndex })}
+          onPress = {() => this._displayLastQuote()}
         />
-
-      </SaveAreaView>
+      </View>
     );
   }
 }
-function StyleButton(props){
+function StyledButton(props){
   return (
     <View style={props.style}>
       <Button
@@ -113,7 +124,7 @@ const styles = StyleSheet.create({
   },
   nextButton: { 
     position:'absolute', 
-    bottom: Platform.OS === 'ios' ? 20 : 0,
+    bottom: Platform.OS === 'ios' ? 20 : 10,
   },
   lastButton: { 
     position:'absolute', 
