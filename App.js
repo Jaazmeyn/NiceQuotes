@@ -98,7 +98,7 @@ export default class App extends Component { //statt React.Component oben auch i
       <View style = {styles.container}>
          <StyledButton 
           style = { styles.deleteButton }
-          visible={false}
+          visible={quotes.length >= 1}
           title = "Löschen" 
           onPress = {() => this._deleteButton()}
         />
@@ -116,13 +116,13 @@ export default class App extends Component { //statt React.Component oben auch i
         <StyledButton
           style={styles.nextButton}
           title = "Nächstes Zitat" 
-          visible={false}
+          visible={quotes.length >= 2}
           onPress = {() => this._displayNextQuote()}
         />
         <StyledButton 
           style = { styles.lastButton }
           title = "Voriges Zitat" 
-          visible={false}
+          visible={quotes.length >= 2}
           onPress = {() => this._displayLastQuote()}
         />
       </View>
@@ -130,14 +130,17 @@ export default class App extends Component { //statt React.Component oben auch i
   }
 }
 function StyledButton(props){
-  return (
-    <View style={props.style}>
-      <Button
-        title={props.title}
-        onPress={props.onPress}
-      />
-    </View>
-  )
+  let button = null;
+  if(props.visible) 
+    button = (
+      <View style={props.style}>
+        <Button
+          title={props.title}
+          onPress={props.onPress}
+        />
+      </View>
+    );
+    return button;
 }
 
 const styles = StyleSheet.create({
