@@ -42,7 +42,7 @@ export default class App extends Component { //statt React.Component oben auch i
   }
   //newQuote ausblenden
   _addQuote = (text, author) => {
-    // aktuelle liste der Zitate aus State einer variable zuweisen
+    // Zitate aus State wernen einer variable zugewiesen
     //      statt let quotes = this.state.quotes;
     let { quotes } = this.state;
     if(author && text){
@@ -50,10 +50,12 @@ export default class App extends Component { //statt React.Component oben auch i
       quotes.push({text, author});
       this._storeData(quotes);
     }
-      // aktualisiere liste (this.setstate(..)) aber haben schon oben einen state also oben state erweitern mit eigenschaft quotes
-
-      //newQuote ausblenden
-      this.setState({showNewQuoteScreen: false, quotes})
+      // aktualisiere liste vorhandenes state erweitern mit eigenschaft quotes
+      // newQuote ausblenden
+      this.setState({
+        index: quotes.length -1,
+        showNewQuoteScreen: false, 
+        quotes})
   }
   _displayNextQuote() {
     let {index, quotes} = this.state;
@@ -62,9 +64,9 @@ export default class App extends Component { //statt React.Component oben auch i
     this.setState({ index: nextIndex });
   }
   _displayLastQuote() {
-    let {index, quote} = this.state;
+    let {index, quotes} = this.state;
     let lastIndex = index - 1; 
-    if(lastIndex === -1) lastIndex = data.length -1; //zu dem letzden Zitat in der Liste
+    if(lastIndex === -1) lastIndex = quotes.length -1; //zu dem letzden Zitat in der Liste
     this.setState({ index: lastIndex })
 
   }
