@@ -68,31 +68,40 @@ export default class App extends Component { //statt React.Component oben auch i
     if(lastIndex === -1) lastIndex = data.length -1; //zu dem letzden Zitat in der Liste
     return (
       <SaveAreaView style = {styles.container}>
-        <View style = { styles.new }>
-          <Button 
-            title = "New" 
-            onPress = {() => this.setState({showNewQuoteScreen:true})}
-            />
-        </View>
+        <StyledButton
+          style={styles.new}
+          title = "New" 
+          onPress = {() => this.setState({showNewQuoteScreen:true})}
+          />
         <NewQuote 
           visible={this.state.showNewQuoteScreen}
           onSave={this._addQuote}/>
         <Quote text = {quote.text} author={quote.author}/>
-        <View style = {styles.nextButton}>
-          <Button 
-              title = "Nächstes Zitat" 
-              onPress = {() => this.setState({ index: nextIndex })}
-            />
-        </View>
-        <View style = { styles.lastButton }>
-          <Button 
-            title = "Voriges Zitat" 
-            onPress = {() => this.setState({ index: lastIndex })}
-            />
-        </View>
+
+        <StyledButton
+          style={styles.nextButton}
+          title = "Nächstes Zitat" 
+          onPress = {() => this.setState({ index: nextIndex })}
+        />
+        <StyledButton 
+          style = { styles.lastButton }
+          title = "Voriges Zitat" 
+          onPress = {() => this.setState({ index: lastIndex })}
+        />
+
       </SaveAreaView>
     );
   }
+}
+function StyleButton(props){
+  return (
+    <View style={props.style}>
+      <Button
+        title={props.title}
+        onPress={props.onPress}
+      />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
