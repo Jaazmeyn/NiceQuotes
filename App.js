@@ -70,7 +70,16 @@ export default class App extends Component { //statt React.Component oben auch i
     this.setState({ index: lastIndex })
 
   }
+  _deleteButton(){
+    let {index, quotes} = this.state;
+    //aktuelles zitat aus liste/ array löschen
+    quotes.splice(index, 1);//aber wie funktioniert das mim local storage? ist das immer array zusammenhängend?
+    //liste komplett im speicher ersetzen, da quotes gelöschtes nicht mehr beinhaltet kommt es auch im speicher nicht mehr vor
+    this._storeData(quotes);
+    //geändertes Zitat array ablegen und wieder an anfang der liste springen
+    this.setState({ index: 0, quotes })
 
+  }
   componentDidMount(){
     this._retrieveData();
   }
@@ -81,6 +90,11 @@ export default class App extends Component { //statt React.Component oben auch i
 
     return (
       <View style = {styles.container}>
+         <StyledButton 
+          style = { styles.deleteButton }
+          title = "Löschen" 
+          onPress = {() => this._deleteButton()}
+        />
         <StyledButton
           style={styles.new}
           title = "New" 
@@ -136,5 +150,10 @@ const styles = StyleSheet.create({
     position: 'absolute', 
     top:30, 
     right:0
+  },
+  deleteButton: {
+    position:'absolute',
+    left: 0,
+    top: 40
   }
 });
