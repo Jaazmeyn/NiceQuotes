@@ -1,5 +1,5 @@
 import React, { Component } from 'react'; //react native(mobile)basiert auf react(libary)
-import { Button, Platform, SaveAreaView, StyleSheet, View } from 'react-native'; //API & Componenten 
+import { Text, Button, Platform, SaveAreaView, StyleSheet, View } from 'react-native'; //API & Componenten 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Quote from './js/components/Quote';
 import NewQuote from './js/components/NewQuote';
@@ -87,33 +87,42 @@ export default class App extends Component { //statt React.Component oben auch i
   render() {
     let {index, quotes} = this.state;
     const quote = quotes[index]; //data[0] = Dalai Lama
+    //keine zitate vorhanden
+    let content = <Text style={{fontSize:36}}>Keine Zitate</Text>;
 
+    if (quote) {
+      content = <Quote text ={quote.text} author={quote.author}/>;
+    }
+    
     return (
       <View style = {styles.container}>
          <StyledButton 
           style = { styles.deleteButton }
+          visible={false}
           title = "Löschen" 
           onPress = {() => this._deleteButton()}
         />
         <StyledButton
-          style={styles.new}
+          style={styles.newButton}
           title = "New" 
+          visible={true}
           onPress = {() => this.setState({showNewQuoteScreen:true})}
           />
         <NewQuote 
           visible={this.state.showNewQuoteScreen}
-          onSave={this._addQuote}/>
-
-        <Quote text ={quote.text} author={quote.author}/>
-
+          onSave={this._addQuote}
+        />
+        {content}
         <StyledButton
           style={styles.nextButton}
           title = "Nächstes Zitat" 
+          visible={false}
           onPress = {() => this._displayNextQuote()}
         />
         <StyledButton 
           style = { styles.lastButton }
           title = "Voriges Zitat" 
+          visible={false}
           onPress = {() => this._displayLastQuote()}
         />
       </View>
@@ -140,20 +149,22 @@ const styles = StyleSheet.create({
   },
   nextButton: { 
     position:'absolute', 
-    bottom: Platform.OS === 'ios' ? 20 : 10,
+    bottom: Platform.OS === 'ios' ? 20 : 25,
+    right:30
   },
   lastButton: { 
     position:'absolute', 
-    top: 40 
+    bottom: Platform.OS === 'ios' ? 20 : 25,
+    left: 30
   },
   newButton: { 
     position: 'absolute', 
-    top:30, 
-    right:0
+    top:90, 
+    right:30
   },
   deleteButton: {
     position:'absolute',
-    left: 0,
-    top: 40
-  }
+    right: 30,
+    top: 40,
+    backgroundColor: 'yellow'  }
 });
