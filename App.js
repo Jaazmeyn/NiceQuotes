@@ -37,24 +37,27 @@ export default class App extends Component { //statt React.Component oben auch i
       }
     }
   
-  _storeData(Quotes){
+  _storeData(quotes){
     AsyncStorage.setItem('QUOTES', JSON.stringify(quotes)); //Asyncstorage ist textbasiert muss in 
   }
   //newQuote ausblenden
   _addQuote = (text, author) => {
-
     // aktuelle liste der Zitate aus State einer variable zuweisen
     //      statt let quotes = this.state.quotes;
     let { quotes } = this.state;
     if(author && text){
       // neues Zitat an ende der Liste anfügen (eigenschaft: wert) erzeuge objekt direkt bei methodenaufruf
       quotes.push({text, author});
-      this._storeData(quotes)
+      this._storeData(quotes);
     }
       // aktualisiere liste (this.setstate(..)) aber haben schon oben einen state also oben state erweitern mit eigenschaft quotes
 
       //newQuote ausblenden
       this.setState({showNewQuoteScreen: false, quotes})
+  }
+
+  componentDidMount(){
+    this._retrieveData();
   }
   render() {
     let {index, quotes} = this.state;
