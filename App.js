@@ -1,8 +1,18 @@
 import React, { Component } from 'react'; //react native(mobile)basiert auf react(libary)
-import { Alert, Text, Button, Platform, SaveAreaView, StyleSheet, View } from 'react-native'; //API & Componenten 
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { 
+  Alert, 
+  Text, 
+  Button, 
+  Platform, 
+  SaveAreaView, 
+  StyleSheet, 
+  View } from 'react-native'; //API & Componenten 
+import * as SQLite from 'expo-sqlite';
+
 import Quote from './js/components/Quote';
 import NewQuote from './js/components/NewQuote';
+
+const database = SQLite.openDatabase('quotes.db');
 
 const data = [
   {
@@ -29,26 +39,20 @@ export default class App extends Component { //statt React.Component oben auch i
   state = { index: 0, showNewQuoteScreen: false, quotes: data };
 
   _retrieveData = async () => {
-    //statt promise mit awayt syntaktisch wie synchronen ablauf umgeschrieben
-    let value = await AsyncStorage.getItem('QUOTES');
-      if(value != null){
-        value = JSON.parse(value);
-        this.setState({quotes: value});
-      }
+    
     }
   
-  _storeData(quotes){
-    AsyncStorage.setItem('QUOTES', JSON.stringify(quotes)); //Asyncstorage ist textbasiert muss in 
+  _saveQuoteToDB(quotes){
   }
   //newQuote ausblenden
   _addQuote = (text, author) => {
+    // TODO neues Zitat in der Datenbank abspeichern
     // Zitate aus State wernen einer variable zugewiesen
     //      statt let quotes = this.state.quotes;
     let { quotes } = this.state;
     if(author && text){
       // neues Zitat an ende der Liste anfügen (eigenschaft: wert) erzeuge objekt direkt bei methodenaufruf
       quotes.push({text, author});
-      this._storeData(quotes);
     }
       // aktualisiere liste vorhandenes state erweitern mit eigenschaft quotes
       // newQuote ausblenden
@@ -81,11 +85,10 @@ export default class App extends Component { //statt React.Component oben auch i
 
   }
   _deleteQuote(){
+    // Zitat aus datenbank löschen
     let {index, quotes} = this.state;
     //aktuelles zitat aus liste/ array löschen
     quotes.splice(index, 1);//aber wie funktioniert das mim local storage? ist das immer array zusammenhängend?
-    //liste komplett im speicher ersetzen, da quotes gelöschtes nicht mehr beinhaltet kommt es auch im speicher nicht mehr vor
-    this._storeData(quotes);
     //geändertes Zitat array ablegen und wieder an anfang der liste springen
     this.setState({ index: 0, quotes })
   }

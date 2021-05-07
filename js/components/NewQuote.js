@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Button, TextInput, Modal, View, StyleSheet} from 'react-native';
+import { Alert, Button, TextInput, Modal, View, StyleSheet} from 'react-native';
 
 export default class NewQuote extends Component {
     state = { content: null, author: null };
+    _scanZitat(){
 
+    }
     render(){
         const { visible, onSave } = this.props;
         const { content, author } = this.state;
@@ -39,6 +41,10 @@ export default class NewQuote extends Component {
                         this.setState({content: null, author: null})
                         onSave(content, author);
                     }} />
+                    <Button style={styles.scanButton} title="scan" onPress={() => {
+                        this.setState({content: null, author: null})
+                        this._scanZitat();
+                    }} />
                 </View>
             </Modal>
         );
@@ -52,14 +58,18 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         paddingTop:40
       },
-      input: {
-          borderWidth: 1,
-          borderColor: 'deepskyblue',
-          borderRadius: 4,
-          width: '80%',
-          marginBottom: 20,
-          fontSize: 20,
-          padding:10,
-          height: 50
+    input: {
+        borderWidth: 1,
+        borderColor: 'deepskyblue',
+        borderRadius: 4,
+        width: '80%',
+        marginBottom: 20,
+        fontSize: 20,
+        padding:10,
+        height: 50
+      },
+      scanButton: {
+        position:'absolute',
+        top: 0
       }
 });
